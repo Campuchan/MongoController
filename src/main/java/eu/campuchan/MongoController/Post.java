@@ -1,6 +1,7 @@
 package eu.campuchan.MongoController;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "posts")
@@ -11,6 +12,8 @@ public class Post {
     private String contenido;
     private Usuario autor;
 
+    @Transient
+    private String autorNombre;
 
     public String getTitulo() {
         return titulo;
@@ -34,5 +37,13 @@ public class Post {
 
     public void setAutor(Usuario autor) {
         this.autor = autor;
+    }
+
+    public String getAutorNombre() {
+        return autorNombre;
+    }
+
+    public void setAutorNombre(String autorNombre) {
+        this.autorNombre = autorNombre;
     }
 }

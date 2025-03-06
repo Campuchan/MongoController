@@ -14,6 +14,6 @@ import java.util.function.Function;
 
 
 @Repository
-public abstract class PostRepository extends MongoRepository<Post, String> {
+public interface PostRepository extends MongoRepository<Post, String> {
 
 }

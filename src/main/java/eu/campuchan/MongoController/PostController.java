@@ -1,15 +1,19 @@
 package eu.campuchan.MongoController;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("/post")
 public class PostController {
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     @GetMapping("/")
     public List<Post> getAllPosts(){
@@ -22,7 +26,15 @@ public class PostController {
     }
 
     @PostMapping
-    public Post createPost(@RequestBody Post post){
+    public Post createPost(@RequestBody @Validated Post post) {
+        if (post.getAutorNombre() != null) {
+            Usuario autor = usuarioService.findByNombre(post.getAutorNombre());
+            if (autor != null) {
+                post.setAutor(autor);
+            } else {
+                throw new RuntimeException("Author not found");
+            }
+        }
         return postService.createPost(post);
     }
 
