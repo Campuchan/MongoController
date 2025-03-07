@@ -1,5 +1,7 @@
-package eu.campuchan.MongoController;
+package eu.campuchan.MongoController.service;
 
+import eu.campuchan.MongoController.model.Post;
+import eu.campuchan.MongoController.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

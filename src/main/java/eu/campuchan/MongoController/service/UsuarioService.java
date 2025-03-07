@@ -1,6 +1,9 @@
-package eu.campuchan.MongoController;
+package eu.campuchan.MongoController.service;
 
 
+import eu.campuchan.MongoController.exception.DuplicateEmailException;
+import eu.campuchan.MongoController.model.Usuario;
+import eu.campuchan.MongoController.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,10 @@ public class UsuarioService {
     }
 
     public Usuario createUsuario(Usuario usuario){
+        if (usuarioRepository.existsByCorreo(usuario.getCorreo())) {
+            throw new DuplicateEmailException("Email already exists: " + usuario.getCorreo());
+        }
+
         return usuarioRepository.save(usuario);
     }
 

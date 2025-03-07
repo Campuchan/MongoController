@@ -1,14 +1,17 @@
-package eu.campuchan.MongoController;
+package eu.campuchan.MongoController.model;
 
-import org.springframework.data.annotation.AccessType;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Document(collection = "usuarios")
 public class Usuario {
     @Id
     private String id;
     private String nombre;
+
+    @Indexed(unique = true)
     private String correo;
     private String password;
 
@@ -34,6 +37,7 @@ public class Usuario {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        this.password = encoder.encode(password);
     }
 }

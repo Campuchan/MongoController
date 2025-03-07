@@ -1,4 +1,4 @@
-package eu.campuchan.MongoController;
+package eu.campuchan.MongoController.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Document(collection = "comentarioIds")
+@Document(collection = "comentario")
 public class Comentario {
     @Id
     private String id;
@@ -27,7 +27,7 @@ public class Comentario {
         return comentarios;
     }
 
-    public void setComentarioIds(List<Comentario> comentarios) {
+    public void setComentario(List<Comentario> comentarios) {
         this.comentarios = comentarios;
     }
 }

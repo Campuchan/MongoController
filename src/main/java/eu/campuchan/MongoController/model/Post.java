@@ -1,5 +1,6 @@
-package eu.campuchan.MongoController;
+package eu.campuchan.MongoController.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -8,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Post {
     @Id
     private String id;
+    private Long postId; //para url
     private String titulo;
     private String contenido;
     private Usuario autor;
@@ -45,5 +47,16 @@ public class Post {
 
     public void setAutorNombre(String autorNombre) {
         this.autorNombre = autorNombre;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id='" + id + '\'' +
+                ", titulo='" + titulo + '\'' +
+                ", contenido='" + contenido + '\'' +
+                ", autor=" + autor +
+                ", autorNombre='" + autorNombre + '\'' +
+                '}';
     }
 }
