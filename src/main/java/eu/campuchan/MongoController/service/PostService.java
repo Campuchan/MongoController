@@ -12,15 +12,21 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
+    @Autowired
+    private SequenceGeneratorService sequenceGeneratorService;
+
     public List<Post> getAllPosts() {
         return postRepository.findAll();
     }
 
-    public Post getPostById(String id){
-        return postRepository.findById(id).orElse(null);
+    public Post getPostById(Long postId) {
+        return postRepository.findByPostId(postId).orElse(null);
     }
 
     public Post createPost(Post post){
+        Long postId = sequenceGeneratorService.generateSequence("post_sequence");
+        post.setPostId(postId);
+
         return postRepository.save(post);
     }
 

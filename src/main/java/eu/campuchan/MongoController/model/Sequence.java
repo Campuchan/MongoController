@@ -6,7 +6,7 @@ public class Sequence {
     @Id
     private String id;
 
-    private Long value;
+    private Long value = 1L;
 
     public String getId() {
         return id;
@@ -14,5 +14,13 @@ public class Sequence {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Long getValue() {
+        return this.value;
+    }
+
+    public void setValue(Long value) {
+        this.value = value;
     }
 }
