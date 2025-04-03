@@ -4,6 +4,7 @@ import eu.campuchan.MongoController.exception.DuplicateEmailException;
 import eu.campuchan.MongoController.model.Usuario;
 import eu.campuchan.MongoController.dto.UsuarioDTO;
 import eu.campuchan.MongoController.repository.UsuarioRepository;
+import eu.campuchan.MongoController.service.ImageService;
 import eu.campuchan.MongoController.service.UsuarioService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +25,9 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private ImageService imageService;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -38,17 +43,37 @@ public class UsuarioController {
                 })
                 .collect(Collectors.toList());
     }
-    @PostMapping()
-    public ResponseEntity<?> createUsuario(@RequestBody @Validated Usuario usuario) {
-        logger.info("Creating a new user with email: {}", usuario.getCorreo());
+    @PostMapping(name = "", consumes = "multipart/form-data", produces = "application/json")
+    public ResponseEntity<?> createUsuario(@RequestParam("imagen") MultipartFile imagen,
+                                           @RequestParam("password") String password,
+                                           @RequestParam("correo") String correo,
+                                           @RequestParam("nombre") String nombre) {
+        logger.info("Creating a new user with email: {}", correo);
         try {
+            Usuario usuario = new Usuario(nombre, correo, password);
+            String imageUrl = imageService.saveImageToStorage(imagen);
+            usuario.setFotoUrl(imageUrl);
             Usuario createdUsuario = usuarioService.createUsuario(usuario);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUsuario);
         } catch (DuplicateEmailException e) {
-            logger.error("Error creating user: {}", e.getMessage());
+            logger.error("Error creando usuario: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (Exception e) {
-            logger.error("Error creating user: {}", e.getMessage(), e);
+            logger.error("Error creando usuario: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUsuario(@PathVariable String id, @RequestParam("file") MultipartFile file, @RequestParam("usuario") Usuario usuario) {
+        logger.info("Updating user with id: {}", id);
+        try {
+            String imageUrl = imageService.saveImageToStorage(file);
+            usuario.setFotoUrl(imageUrl);
+            Usuario updatedUsuario = usuarioService.updateUsuario(id, usuario);
+            return ResponseEntity.ok(updatedUsuario);
+        } catch (Exception e) {
+            logger.error("Error updating user: {}", e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

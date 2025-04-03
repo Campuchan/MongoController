@@ -13,7 +13,35 @@ public class Comentario {
     private String contenido;
 
     @DBRef
+    private Usuario autor;
+
+    @DBRef
+    private Object parent;
+
+    @DBRef
     private List<Comentario> comentarios;
+
+    public Comentario(String contenido, Usuario autor, Object parent) {
+        this.contenido = contenido;
+        this.autor = autor;
+        this.parent = parent;
+    }
+
+    public Usuario getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Usuario autor) {
+        this.autor = autor;
+    }
+
+    public Object getParent() {
+        return parent;
+    }
+
+    public void setParent(Object parent) {
+        this.parent = parent;
+    }
 
     public String getContenido() {
         return contenido;

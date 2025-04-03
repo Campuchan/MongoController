@@ -32,5 +32,16 @@ public class UsuarioService {
     public Usuario findByNombre(String nombre) {
         return usuarioRepository.findByNombre(nombre);
     }
+
+    public Usuario updateUsuario(String id, Usuario usuario) {
+
+        Usuario existingUsuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+               //se hace exception directamente para que no haga los metodos de abajo si eso
+        existingUsuario.setNombre(usuario.getNombre());
+        existingUsuario.setCorreo(usuario.getCorreo());
+        existingUsuario.setFotoUrl(usuario.getFotoUrl());
+        return usuarioRepository.save(existingUsuario);
+    }
 }
 

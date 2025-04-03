@@ -3,7 +3,10 @@ package eu.campuchan.MongoController.model;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 @Document(collection = "posts")
 public class Post {
@@ -13,6 +16,9 @@ public class Post {
     private String titulo;
     private String contenido;
     private Usuario autor;
+
+    @DBRef
+    private List<Comentario> comentarios;
 
     @Transient
     private String autorNombre;
@@ -57,6 +63,8 @@ public class Post {
                 ", contenido='" + contenido + '\'' +
                 ", autor=" + autor +
                 ", autorNombre='" + autorNombre + '\'' +
+                ", postId=" + postId +
+                ", comentarios=" + (long) comentarios.size() +
                 '}';
     }
 
@@ -66,5 +74,13 @@ public class Post {
 
     public Long getPostId() {
         return postId;
+    }
+
+    public List<Comentario> getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(List<Comentario> comentarios) {
+        this.comentarios = comentarios;
     }
 }

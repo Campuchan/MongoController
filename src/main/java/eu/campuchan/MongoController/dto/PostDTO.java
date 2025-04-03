@@ -3,6 +3,7 @@ package eu.campuchan.MongoController.dto;
 import eu.campuchan.MongoController.model.Post;
 import eu.campuchan.MongoController.model.Usuario;
 
+
 public class PostDTO {
 
     private Long postId;

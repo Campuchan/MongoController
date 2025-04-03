@@ -15,6 +15,13 @@ public class Usuario {
     private String correo;
     private String password;
 
+    private String fotoUrl;
+
+    public Usuario(String nombre, String correo, String password) {
+        this.nombre = nombre;
+        this.correo = correo;
+        setPassword(password);
+    }
 
     public String getNombre() {
         return nombre;
@@ -34,6 +41,14 @@ public class Usuario {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setFotoUrl(String fotoUrl) {
+        this.fotoUrl = fotoUrl;
+    }
+
+    public String getFotoUrl() {
+        return fotoUrl;
     }
 
     public void setPassword(String password) {

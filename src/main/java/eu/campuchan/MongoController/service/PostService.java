@@ -1,5 +1,6 @@
 package eu.campuchan.MongoController.service;
 
+import eu.campuchan.MongoController.dto.PostDTO;
 import eu.campuchan.MongoController.model.Post;
 import eu.campuchan.MongoController.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,9 @@ import java.util.List;
 public class PostService {
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private PostMapper postMapper;
 
     @Autowired
     private SequenceGeneratorService sequenceGeneratorService;

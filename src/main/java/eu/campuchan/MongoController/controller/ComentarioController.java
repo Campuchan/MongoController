@@ -2,10 +2,12 @@ package eu.campuchan.MongoController.controller;
 
 import eu.campuchan.MongoController.dto.PostDTO;
 import eu.campuchan.MongoController.dto.PostRequest;
+import eu.campuchan.MongoController.model.Comentario;
 import eu.campuchan.MongoController.model.Post;
+import eu.campuchan.MongoController.model.Usuario;
+import eu.campuchan.MongoController.service.ComentarioService;
 import eu.campuchan.MongoController.service.PostMapper;
 import eu.campuchan.MongoController.service.PostService;
-import eu.campuchan.MongoController.model.Usuario;
 import eu.campuchan.MongoController.service.UsuarioService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,32 +20,32 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/post")
-public class PostController {
-    private static final Logger logger = LoggerFactory.getLogger(UsuarioController.class);
+@RequestMapping("/comentario")
+public class ComentarioController {
+    private static final Logger logger = LoggerFactory.getLogger(ComentarioController.class);
 
     @Autowired
-    private PostService postService;
+    private ComentarioService comentarioService;
 
     @Autowired
     private UsuarioService usuarioService;
 
     @Autowired
-    private PostMapper postMapper;
+    private ComentarioMapper comentarioMapper;
 
 
     @GetMapping()
-    public List<Post> getAllPosts(){
-        return postService.getAllPosts();
+    public ResponseEntity<?> getAllPosts(){
+        return ResponseEntity.unprocessableEntity().build();
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity<PostDTO> getPost(@PathVariable Long postId) {
-        Post post = postService.getPostById(postId);
-        if (post == null) {
+    public ResponseEntity<PostDTO> getPost(@PathVariable Long id) {
+        Comentario comentario = comentarioService.getComentarioById(id);
+        if (comentario == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(postMapper.toDto(post));
+        return ResponseEntity.ok(comentarioMapper.toDto(post));
     }
 
     @PostMapping
