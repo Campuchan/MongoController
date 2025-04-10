@@ -43,14 +43,27 @@ public class UsuarioController {
                 })
                 .collect(Collectors.toList());
     }
+
+    /**
+     * Crea un nuevo usuario en la base de datos.
+     * multipart/form-data
+     *
+     * @param nombreUsuario
+     * @param password
+     * @param correo
+     * @param imagen
+     * @param nombre
+     * @return
+     */
     @PostMapping(name = "", consumes = "multipart/form-data", produces = "application/json")
     public ResponseEntity<?> createUsuario(@RequestParam("imagen") MultipartFile imagen,
+                                           @RequestParam("nombreUsuario") String nombreUsuario,
                                            @RequestParam("password") String password,
                                            @RequestParam("correo") String correo,
                                            @RequestParam("nombre") String nombre) {
         logger.info("Creating a new user with email: {}", correo);
         try {
-            Usuario usuario = new Usuario(nombre, correo, password);
+            Usuario usuario = new Usuario(nombreUsuario ,nombre, correo, password);
             String imageUrl = imageService.saveImageToStorage(imagen);
             usuario.setFotoUrl(imageUrl);
             Usuario createdUsuario = usuarioService.createUsuario(usuario);

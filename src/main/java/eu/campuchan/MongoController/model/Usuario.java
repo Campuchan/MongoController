@@ -11,16 +11,27 @@ public class Usuario {
     private String id;
     private String nombre;
 
+    private String nombreUsuario;
+
     @Indexed(unique = true)
     private String correo;
     private String password;
 
     private String fotoUrl;
 
-    public Usuario(String nombre, String correo, String password) {
+    public Usuario(String nombreUsuario, String nombre, String correo, String password) {
+        this.nombreUsuario = nombreUsuario;
         this.nombre = nombre;
         this.correo = correo;
         setPassword(password);
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
     public String getNombre() {
